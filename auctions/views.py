@@ -88,8 +88,9 @@ def creat_listing(request):
         list.save()
         active_list=auction_listings.objects.filter(status=True)
         return render(request, "auctions/index.html",{
+            'Categories': all_categories,
             'auction_listings':active_list,
-            'Categories': all_categories})
+            })
     
 def watch_list(request):
     the_user=request.user
