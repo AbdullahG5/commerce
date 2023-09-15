@@ -1,0 +1,86 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+    {% if not auction_listings.status and user == auction_listings.start_up_bids.users  %}
+        <div class="alert alert-warning" role="alert">
+            Congratulations, you won 
+        </div>
+    {% endif %}
+    {% if do %}
+        {% if update %}
+            <div class="alert alert-success" role="alert" style="color: lime; background:black;">
+            <h4 class="alert-heading">{{do_0}}</h4>
+            <p>{{do_1}}</p>
+            <hr>
+            <p class="mb-0">{{do_2}}</p>
+            </div>
+        {% else %}
+            <div class="alert alert-success" role="alert" style="color: white; background: rgb(136, 18, 18);">
+            <h4 class="alert-heading">Unfortunately it's  not possible</h4>
+            <p> you Failed to bid on this item , You must place an amount more than the displayed amount</p>
+            <hr>
+            <p class="mb-0"> Try again </p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+        <h2>{{auction_listings.title}}</h2>
+        <img src="{{auction_listings.image}}" alt="{{auction_listings.title}}" width="20%">
+        <p>{{auction_listings.description}}</p>
+        <h5>{{auction_listings.color}}</h5>
+        <h5>{{auction_listingsBrand}}</h5>
+        <h4 style="color: green;">{{auction_listings.start_up_bids.bids}}$</h4>
+        <h5>{{auction_listings.id_of_owner}}</h5>
+        <br>
+    </div>
+
+
+    {% if user.is_authenticated and auction_listings.status %}
+        {% if the_owner %}
+            <form action="{% url 'close' id=auction_listings.id  %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="close the auction" name="save" class="btn btn-primary" style="position: absolute;left: 75%; top: 13%;">
+            </form>
+        {% endif %}
+        {% if ckeck_in  %}
+            <form action="{% url 'removeW' id=auction_listings.id  %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="remov from watch list" class="btn btn-danger" style="position: absolute;left: 85%; top: 13%;">
+            </form>
+        {% else %}
+            <form action="{% url 'addW' id=auction_listings.id  %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="add to watch list" class="btn btn-success"  style="position: absolute;left: 85%; top: 13%;">
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <div>
+    {% if user.is_authenticated and auction_listings.status %}
+        <h3>Add Bids:</h3>
+        <form action="{% url 'bids' id=auction_listings.id %}" method="post">
+            {% csrf_token %}
+            <input type="number" name="newbids" placeholder="the bids...." min="0" class="btn btn-outline-info" style="width: 100%;">
+            <input type="submit" name="save" value="Add Bids" class="btn btn-primary btn-lg btn-block">
+        </form>
+        <h3>Add Comment:</h3>
+        <form action="{% url 'A_C' id=auction_listings.id %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="newcomment" placeholder="the comment...." class="btn btn-outline-info" style="width: 100%;">
+            <input type="submit" name="save" value="Add Comment" class="btn btn-secondary btn-lg btn-block">
+        </form>
+    {% endif %}
+    </div>
+    <div>
+    <h3>The Comment:</h3>
+    <ul class="list-group list-group-flush">
+        {% for i in all_comments %}
+            <li class="list-group-item">
+                <p>by <span style="color:blueviolet;">{{i.users}}:</span></p>
+                {{i.the_comment}}</li>
+        {% endfor %}
+    </ul>
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    <br>
+    <form action="{% url 'DP_C' %}" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="Category">Select an Category:</label>
+            <select id="Category" name="Category">
+                {% for i in Categories %}
+                    <option value="{{i}}" >{{ i }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="select" name="save">
+        </div>
+    </form>
+    {% for i in auction_listings %}
+    <center>
+        <br>
+        <div class="card" style="width: 40rem; display: block;border: solid gray 0.1rem;">
+            <img class="card-img-top" src="{{i.image}}" alt="{{i.title}}">
+            <div class="card-body">
+            <h5 class="card-title">{{i.title}}</h5>
+            <p class="card-text">{{i.description}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+            <li class="list-group-item" style="color: green;">{{i.start_up_bids.bids}}$</li>
+            <li class="list-group-item">{{i.color}}</li>
+            <li class="list-group-item">{{i.Brand}}</li>
+            </ul>
+            <div class="card-body">
+                <a href="{% url 'listing' id=i.id %}" class="card-link">details</a>
+            </div>
+        </div>
+    </center>
+    <br>
+    {% endfor %}
+{% endblock %}

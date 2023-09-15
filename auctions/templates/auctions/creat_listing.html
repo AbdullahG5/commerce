@@ -1,0 +1,45 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Creat Listing</h2>
+<form action="{% url 'C_L'  %}" method="post">
+{% csrf_token %}
+<div class="Cl0">
+<div class="form-group">
+    <label for="title">the title is:</label>
+    <input type="text" placeholder="title" name="title" id="title" required class="form-control">
+</div>
+<div class="description-text">
+    <label for="te">description:</label>
+    <textarea name="description" id="te" cols="50" rows="3" placeholder="description" required class="form-control">
+    </textarea>
+</div>
+<div class="form-group">
+    <label for="bids1">start bids with:</label>
+    <input type="number" placeholder="..." name="start_up_bids" id="bids1" required class="form-control">
+</div>
+<div class="form-group">
+    <label for="pic1">the picture:</label>
+    <input type="url" placeholder="...." id="pic1" name="image" class="form-control">
+</div>
+<div class="form-group" >
+    <label for="cl">Color</label>
+    <input type="text" name="color" placeholder="...."  id="cl" class="form-control" >
+</div>
+<div class="form-group">
+    <label for="cc">Brand</label>
+    <input type="text" name="Brand" placeholder="...." class="form-control" id="cc">
+</div>
+<div>
+    <label for="options">Select an Category:</label>
+    <select id="options" name="Categories">
+        {% for i in Categories %}
+        <option value="{{i}}" name="{{i}}">{{i}}</option>
+        {% endfor %}
+    </select></div>
+<div class="submit-button">
+    <input type="submit" value="creat a list" name="save" class="btn btn-primary">
+</div>
+</div>
+</form>
+{% endblock %}
